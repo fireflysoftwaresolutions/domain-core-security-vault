@@ -6,11 +6,11 @@
     <parent>
         <groupId>io.fireflysoftware</groupId>
         <artifactId>firefly-parent</artifactId>
-        <version>26.10.3</version>
+        <version>26.10.4</version>
         <relativePath/>
     </parent>
     <artifactId>domain-core-security-vault</artifactId>
-    <version>26.10.3</version>
+    <version>26.10.4</version>
     <packaging>pom</packaging>
     <name>domain-core-security-vault</name>
     <description>Sandbox is the default and opens no socket. Live calls the core SDK.</description>
