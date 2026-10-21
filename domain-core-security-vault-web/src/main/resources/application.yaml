@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: domain-core-security-vault
+server:
+  port: ${SERVER_PORT:18125}
+firefly:
+  vault:
+    credential:
+      adapter: sandbox
+      core-base-url: http://localhost:8080
