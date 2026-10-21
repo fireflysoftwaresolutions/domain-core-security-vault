@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Firefly Software Foundation
+ * Copyright 2026 Firefly Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.fireflysoftware.domain.vault;
+package io.fireflysoftware.domain.vault.core.credential;
 
 import io.fireflysoftware.common.security.vault.sdk.api.CredentialsApi;
 import io.fireflysoftware.common.security.vault.sdk.model.CredentialDTO;
@@ -29,14 +29,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class SdkAdapterTest {
+class SdkCredentialAdapterTest {
     @Test
     void sandboxIsTheDefaultAndDoesNotOpenASocket() {
         new ApplicationContextRunner()
-                .withUserConfiguration(AdapterConfiguration.class)
+                .withUserConfiguration(CredentialAdapterConfiguration.class)
                 .run(context -> {
-                    CorePort port = context.getBean(CorePort.class);
-                    assertThat(port).isInstanceOf(SandboxAdapter.class);
+                    CredentialPort port = context.getBean(CredentialPort.class);
+                    assertThat(port).isInstanceOf(SandboxCredentialAdapter.class);
                     assertThat(port.read(null).block().label()).isEqualTo("primary");
                 });
     }
@@ -44,9 +44,9 @@ class SdkAdapterTest {
     @Test
     void corePropertySelectsTheSdkAdapter() {
         new ApplicationContextRunner()
-                .withUserConfiguration(AdapterConfiguration.class)
+                .withUserConfiguration(CredentialAdapterConfiguration.class, io.fireflysoftware.domain.vault.infra.CredentialClientFactory.class)
                 .withPropertyValues("firefly.vault.credential.adapter=core")
-                .run(context -> assertThat(context.getBean(CorePort.class)).isInstanceOf(SdkAdapter.class));
+                .run(context -> assertThat(context.getBean(CredentialPort.class)).isInstanceOf(SdkCredentialAdapter.class));
     }
 
     @Test
@@ -56,7 +56,7 @@ class SdkAdapterTest {
         CredentialDTO dto = mock(CredentialDTO.class);
         when(dto.getId()).thenReturn(id);
         when(api.getCredentialById(id, null)).thenReturn(Mono.just(dto));
-        CredentialView view = new SdkAdapter(api).read(id).block();
+        CredentialView view = new SdkCredentialAdapter(api).read(id).block();
         assertThat(view.id()).isEqualTo(id);
         verify(api).getCredentialById(id, null);
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Firefly Software Foundation
+ * Copyright 2026 Firefly Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package io.fireflysoftware.domain.vault;
+package io.fireflysoftware.domain.vault.core.credential.commands;
 
-import reactor.core.publisher.Mono;
+import org.fireflyframework.cqrs.command.Command;
 
 import java.util.UUID;
 
-/** Reads the core through its SDK when the live adapter is selected. Sandbox does not open a socket. */
-public interface CorePort {
-    Mono<CredentialView> read(UUID id);
+public record RemoveCredentialCommand(UUID id) implements Command<Void> {
 }

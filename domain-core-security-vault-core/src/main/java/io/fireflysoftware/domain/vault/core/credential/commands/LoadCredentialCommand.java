@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Firefly Software Foundation
+ * Copyright 2026 Firefly Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package io.fireflysoftware.domain.vault;
+package io.fireflysoftware.domain.vault.core.credential.commands;
+
+import io.fireflysoftware.domain.vault.core.credential.StoredCredential;
+import org.fireflyframework.cqrs.command.Command;
 
 import java.util.UUID;
 
-public record CredentialView(UUID id, String label) {
+public record LoadCredentialCommand(UUID id) implements Command<StoredCredential> {
 }

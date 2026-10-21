@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Firefly Software Foundation
+ * Copyright 2026 Firefly Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,24 @@
  * limitations under the License.
  */
 
-package io.fireflysoftware.domain.vault;
+package io.fireflysoftware.domain.vault.core.credential;
 
-import org.springframework.beans.factory.annotation.Value;
+import io.fireflysoftware.common.security.vault.sdk.api.CredentialsApi;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class AdapterConfiguration {
+public class CredentialAdapterConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = "firefly.vault.credential", name = "adapter", havingValue = "sandbox", matchIfMissing = true)
-    public CorePort sandboxPort() {
-        return new SandboxAdapter();
+    public CredentialPort sandboxCredentialPort() {
+        return new SandboxCredentialAdapter();
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "firefly.vault.credential", name = "adapter", havingValue = "core")
-    public CorePort corePort(
-            @Value("${firefly.vault.credential.core-base-url:http://localhost:8080}") String basePath) {
-        return new SdkAdapter(basePath);
+    public CredentialPort coreCredentialPort(CredentialsApi api) {
+        return new SdkCredentialAdapter(api);
     }
 }

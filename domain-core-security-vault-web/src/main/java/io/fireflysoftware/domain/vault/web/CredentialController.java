@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Firefly Software Foundation
+ * Copyright 2026 Firefly Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,15 @@
 
 package io.fireflysoftware.domain.vault.web;
 
-import io.fireflysoftware.domain.vault.CorePort;
-import io.fireflysoftware.domain.vault.CredentialView;
+import io.fireflysoftware.common.security.vault.sdk.model.CredentialDTO;
+import io.fireflysoftware.domain.vault.core.credential.CredentialService;
+import io.fireflysoftware.domain.vault.core.credential.CredentialView;
+import io.fireflysoftware.domain.vault.core.credential.StoredCredential;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -28,15 +33,25 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/credentials")
-public class ReadController {
-    private final CorePort port;
+public class CredentialController {
+    private final CredentialService service;
 
-    public ReadController(CorePort port) {
-        this.port = port;
+    public CredentialController(CredentialService service) {
+        this.service = service;
     }
 
     @GetMapping("/{id}")
     public Mono<CredentialView> read(@PathVariable UUID id) {
-        return port.read(id);
+        return service.read(id);
+    }
+
+    @PostMapping
+    public Mono<StoredCredential> create(@RequestBody CredentialDTO draft) {
+        return service.register(draft);
+    }
+
+    @PutMapping("/{id}")
+    public Mono<StoredCredential> update(@PathVariable UUID id, @RequestBody CredentialDTO draft) {
+        return service.update(id, draft);
     }
 }
