@@ -23,7 +23,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** Default adapter. Holds rows in memory and does not call the core. */
-public final class SandboxCredentialAdapter implements CredentialPort {
+public final class SandboxCredentialAdapterImpl implements CredentialPort {
     private final ConcurrentHashMap<UUID, CredentialDTO> rows = new ConcurrentHashMap<>();
 
     @Override

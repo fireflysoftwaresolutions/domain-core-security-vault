@@ -17,7 +17,7 @@
 package io.fireflysoftware.domain.vault.web;
 
 import io.fireflysoftware.common.security.vault.sdk.model.CredentialDTO;
-import io.fireflysoftware.domain.vault.core.credential.CredentialService;
+import io.fireflysoftware.domain.vault.core.credential.CredentialServiceImpl;
 import io.fireflysoftware.domain.vault.core.credential.CredentialView;
 import io.fireflysoftware.domain.vault.core.credential.StoredCredential;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +34,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/credentials")
 public class CredentialController {
-    private final CredentialService service;
+    private final CredentialServiceImpl service;
 
-    public CredentialController(CredentialService service) {
+    public CredentialController(CredentialServiceImpl service) {
         this.service = service;
     }
 

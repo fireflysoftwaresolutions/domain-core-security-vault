@@ -30,12 +30,12 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-@Service
-public class CredentialService {
+@Service("credentialService")
+public class CredentialServiceImpl {
     private final SagaEngine engine;
     private final CredentialPort port;
 
-    public CredentialService(SagaEngine engine, CredentialPort port) {
+    public CredentialServiceImpl(SagaEngine engine, CredentialPort port) {
         this.engine = engine;
         this.port = port;
     }

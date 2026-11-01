@@ -23,10 +23,10 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 /** Live adapter. Selected with firefly.vault.credential.adapter=core. */
-public final class SdkCredentialAdapter implements CredentialPort {
+public final class SdkCredentialAdapterImpl implements CredentialPort {
     private final CredentialsApi api;
 
-    public SdkCredentialAdapter(CredentialsApi api) {
+    public SdkCredentialAdapterImpl(CredentialsApi api) {
         this.api = api;
     }
 
