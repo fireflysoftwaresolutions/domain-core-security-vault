@@ -36,7 +36,7 @@ class SdkCredentialAdapterTest {
                 .withUserConfiguration(CredentialAdapterConfiguration.class)
                 .run(context -> {
                     CredentialPort port = context.getBean(CredentialPort.class);
-                    assertThat(port).isInstanceOf(SandboxCredentialAdapter.class);
+                    assertThat(port).isInstanceOf(SandboxCredentialAdapterImpl.class);
                     assertThat(port.read(null).block().label()).isEqualTo("primary");
                 });
     }
@@ -46,7 +46,7 @@ class SdkCredentialAdapterTest {
         new ApplicationContextRunner()
                 .withUserConfiguration(CredentialAdapterConfiguration.class, io.fireflysoftware.domain.vault.infra.CredentialClientFactory.class)
                 .withPropertyValues("firefly.vault.credential.adapter=core")
-                .run(context -> assertThat(context.getBean(CredentialPort.class)).isInstanceOf(SdkCredentialAdapter.class));
+                .run(context -> assertThat(context.getBean(CredentialPort.class)).isInstanceOf(SdkCredentialAdapterImpl.class));
     }
 
     @Test
@@ -56,7 +56,7 @@ class SdkCredentialAdapterTest {
         CredentialDTO dto = mock(CredentialDTO.class);
         when(dto.getId()).thenReturn(id);
         when(api.getCredentialById(id, null)).thenReturn(Mono.just(dto));
-        CredentialView view = new SdkCredentialAdapter(api).read(id).block();
+        CredentialView view = new SdkCredentialAdapterImpl(api).read(id).block();
         assertThat(view.id()).isEqualTo(id);
         verify(api).getCredentialById(id, null);
     }

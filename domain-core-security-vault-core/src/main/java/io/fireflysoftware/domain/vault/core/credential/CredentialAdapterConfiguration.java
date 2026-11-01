@@ -26,12 +26,12 @@ public class CredentialAdapterConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = "firefly.vault.credential", name = "adapter", havingValue = "sandbox", matchIfMissing = true)
     public CredentialPort sandboxCredentialPort() {
-        return new SandboxCredentialAdapter();
+        return new SandboxCredentialAdapterImpl();
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "firefly.vault.credential", name = "adapter", havingValue = "core")
     public CredentialPort coreCredentialPort(CredentialsApi api) {
-        return new SdkCredentialAdapter(api);
+        return new SdkCredentialAdapterImpl(api);
     }
 }
